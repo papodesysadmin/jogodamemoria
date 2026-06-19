@@ -6,4 +6,6 @@ node_modules/
 dist/
 coverage/
 *.log
-.trae/
+.trae/*
+!.trae/documents/
+!.trae/documents/**
