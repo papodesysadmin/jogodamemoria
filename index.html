@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo da Memória Acessível - Ferramenta de exercício cognitivo para pessoas com TEA, TDAH e epilepsia">
+    <title>Jogo da Memória Acessível</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <!-- Tela Inicial -->
+    <main id="tela-inicial" class="tela ativa" role="region" aria-label="Tela inicial">
+        <div class="container-central">
+            <header class="header-principal">
+                <h1 class="titulo-jogo">Jogo da Memória</h1>
+                <p class="subtitulo-jogo">Uma experiência calma e acessível</p>
+            </header>
+
+            <nav class="menu-principal" aria-label="Menu principal">
+                <button id="btn-jogar" class="botao botao-primario" aria-label="Começar a jogar">
+                    <span class="icone-botao" aria-hidden="true">▶</span>
+                    <span>Jogar</span>
+                </button>
+
+                <button id="btn-configuracoes" class="botao botao-secundario" aria-label="Abrir configurações">
+                    <span class="icone-botao" aria-hidden="true">⚙</span>
+                    <span>Configurações</span>
+                </button>
+
+                <button id="btn-regras" class="botao botao-secundario" aria-label="Ver como jogar">
+                    <span class="icone-botao" aria-hidden="true">?</span>
+                    <span>Como Jogar</span>
+                </button>
+
+                <button id="btn-historico" class="botao botao-secundario" aria-label="Ver histórico de sessões">
+                    <span class="icone-botao" aria-hidden="true">📊</span>
+                    <span>Meu Progresso</span>
+                </button>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Tela de Configurações -->
+    <main id="tela-configuracoes" class="tela" role="region" aria-label="Configurações" hidden>
+        <div class="container-central">
+            <header class="header-secundario">
+                <h2>Configurações</h2>
+                <button id="btn-voltar-config" class="botao-voltar" aria-label="Voltar ao menu principal">
+                    <span aria-hidden="true">←</span>
+                    <span>Voltar</span>
+                </button>
+            </header>
+
+            <form id="form-configuracoes" class="form-configuracoes">
+                <fieldset class="grupo-config">
+                    <legend class="titulo-grupo">Tema das Imagens</legend>
+                    <div class="opcoes-radio">
+                        <label class="radio-opcao">
+                            <input type="radio" name="tema" value="animais" checked>
+                            <span class="radio-label">Animais</span>
+                        </label>
+                        <label class="radio-opcao">
+                            <input type="radio" name="tema" value="objetos">
+                            <span class="radio-label">Objetos</span>
+                        </label>
+                        <label class="radio-opcao">
+                            <input type="radio" name="tema" value="natureza">
+                            <span class="radio-label">Natureza</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="grupo-config">
+                    <legend class="titulo-grupo">Tamanho das Cartas</legend>
+                    <div class="opcoes-radio">
+                        <label class="radio-opcao">
+                            <input type="radio" name="tamanho" value="pequeno">
+                            <span class="radio-label">Pequeno</span>
+                        </label>
+                        <label class="radio-opcao">
+                            <input type="radio" name="tamanho" value="medio" checked>
+                            <span class="radio-label">Médio</span>
+                        </label>
+                        <label class="radio-opcao">
+                            <input type="radio" name="tamanho" value="grande">
+                            <span class="radio-label">Grande</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="grupo-config">
+                    <legend class="titulo-grupo">Dificuldade</legend>
+                    <div class="opcoes-radio">
+                        <label class="radio-opcao">
+                            <input type="radio" name="dificuldade" value="4">
+                            <span class="radio-label">4 pares (Iniciante)</span>
+                        </label>
+                        <label class="radio-opcao">
+                            <input type="radio" name="dificuldade" value="6">
+                            <span class="radio-label">6 pares</span>
+                        </label>
+                        <label class="radio-opcao">
+                            <input type="radio" name="dificuldade" value="8" checked>
+                            <span class="radio-label">8 pares</span>
+                        </label>
+                        <label class="radio-opcao">
+                            <input type="radio" name="dificuldade" value="12">
+                            <span class="radio-label">12 pares (Avançado)</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="grupo-config">
+                    <legend class="titulo-grupo">Sons</legend>
+                    <div class="opcoes-toggle">
+                        <label class="toggle-opcao">
+                            <span class="toggle-label">Sons do jogo</span>
+                            <input type="checkbox" id="toggle-som" name="som">
+                            <span class="toggle-slider" aria-hidden="true"></span>
+                        </label>
+                        <div class="controle-volume" id="controle-volume">
+                            <label for="volume-som" class="toggle-label">Volume</label>
+                            <input type="range" id="volume-som" name="volume" min="0" max="100" value="50"
+                                   class="slider-volume" aria-label="Ajustar volume">
+                            <span id="valor-volume" class="valor-volume">50%</span>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="grupo-config">
+                    <legend class="titulo-grupo">Modo Calmo</legend>
+                    <div class="opcoes-toggle">
+                        <label class="toggle-opcao">
+                            <span class="toggle-label">Ativar modo calmo</span>
+                            <input type="checkbox" id="toggle-calmo" name="modoCalmo">
+                            <span class="toggle-slider" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                    <p class="descricao-modo">No modo calmo, o jogo fica ainda mais tranquilo com sons ambiente relaxantes.</p>
+                </fieldset>
+
+                <fieldset class="grupo-config">
+                    <legend class="titulo-grupo">Temporizador</legend>
+                    <div class="opcoes-toggle">
+                        <label class="toggle-opcao">
+                            <span class="toggle-label">Usar temporizador</span>
+                            <input type="checkbox" id="toggle-temporizador" name="temporizador">
+                            <span class="toggle-slider" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                    <p class="descricao-modo">Por padrão, o tempo é ilimitado. Ative apenas se desejar cronometrar.</p>
+                </fieldset>
+
+                <fieldset class="grupo-config">
+                    <legend class="titulo-grupo">Acessibilidade</legend>
+                    <div class="opcoes-toggle">
+                        <label class="toggle-opcao">
+                            <span class="toggle-label">Reduzir movimentos</span>
+                            <input type="checkbox" id="toggle-reduzir-movimento" name="reduzirMovimento">
+                            <span class="toggle-slider" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                    <div class="controle-escala">
+                        <label for="escala-interface" class="toggle-label">Tamanho da interface</label>
+                        <input type="range" id="escala-interface" name="escalaInterface" min="100" max="200" value="100"
+                               class="slider-volume" aria-label="Ajustar tamanho da interface">
+                        <span id="valor-escala" class="valor-volume">100%</span>
+                    </div>
+                </fieldset>
+
+                <div class="acoes-config">
+                    <button type="button" id="btn-salvar-config" class="botao botao-primario">
+                        Salvar Configurações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Tela de Regras -->
+    <main id="tela-regras" class="tela" role="region" aria-label="Como jogar" hidden>
+        <div class="container-central">
+            <header class="header-secundario">
+                <h2>Como Jogar</h2>
+                <button id="btn-voltar-regras" class="botao-voltar" aria-label="Voltar ao menu principal">
+                    <span aria-hidden="true">←</span>
+                    <span>Voltar</span>
+                </button>
+            </header>
+
+            <div class="regras-conteudo">
+                <section class="regra">
+                    <h3 class="titulo-regra">Objetivo</h3>
+                    <p>Encontre todos os pares de cartas iguais. Quanto mais pares você encontrar, mais sucesso!</p>
+                </section>
+
+                <section class="regra">
+                    <h3 class="titulo-regra">Como Jogar</h3>
+                    <ol class="lista-passos">
+                        <li>Clique ou toque em uma carta para virá-la.</li>
+                        <li>Clique ou toque em outra carta para procurar o par.</li>
+                        <li>Se as duas cartas forem iguais, você encontrou um par!</li>
+                        <li>Continue até encontrar todos os pares.</li>
+                    </ol>
+                </section>
+
+                <section class="regra">
+                    <h3 class="titulo-regra">Dicas</h3>
+                    <ul class="lista-dicas">
+                        <li>Você pode jogar sem pressa - o tempo é ilimitado.</li>
+                        <li>Não se preocupe com erros - o jogo não conta erros, apenas sucesso!</li>
+                        <li>Escolha a quantidade de pares que for mais confortável para você.</li>
+                        <li>Ative o modo calmo para uma experiência ainda mais tranquila.</li>
+                    </ul>
+                </section>
+
+                <section class="regra">
+                    <h3 class="titulo-regra">Controles</h3>
+                    <ul class="lista-controles">
+                        <li><strong>Clique/Tap:</strong> Virar uma carta</li>
+                        <li><strong>Tecla Espaço:</strong> Virar carta selecionada</li>
+                        <li><strong>Teclas de setas:</strong> Navegar entre cartas</li>
+                        <li><strong>Tecla Tab:</strong> Mover entre botões e elementos</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="acoes-regras">
+                <button id="btn-entendi" class="botao botao-primario">Entendi!</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Tela de Histórico -->
+    <main id="tela-historico" class="tela" role="region" aria-label="Histórico de sessões" hidden>
+        <div class="container-central">
+            <header class="header-secundario">
+                <h2>Meu Progresso</h2>
+                <button id="btn-voltar-historico" class="botao-voltar" aria-label="Voltar ao menu principal">
+                    <span aria-hidden="true">←</span>
+                    <span>Voltar</span>
+                </button>
+            </header>
+
+            <div id="historico-conteudo" class="historico-conteudo">
+                <!-- Histórico será preenchido via JavaScript -->
+            </div>
+
+            <div class="acoes-regras">
+                <button id="btn-limpar-historico" class="botao botao-secundario">Limpar Histórico</button>
+                <button id="btn-voltar-menu-historico" class="botao botao-primario">Voltar ao Menu</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Tela de Jogo -->
+    <main id="tela-jogo" class="tela" role="region" aria-label="Área de jogo" hidden>
+        <header class="header-jogo">
+            <button id="btn-pausar" class="botao-icone" aria-label="Pausar jogo">
+                <span aria-hidden="true">⏸</span>
+            </button>
+            <div class="info-jogo">
+                <span id="info-dificuldade" class="info-badge">8 pares</span>
+                <span id="info-pares" class="info-badge">Pares: 0/8</span>
+            </div>
+            <button id="btn-sair-jogo" class="botao-icone" aria-label="Sair do jogo">
+                <span aria-hidden="true">✕</span>
+            </button>
+        </header>
+
+        <div id="area-jogo" class="area-jogo" role="grid" aria-label="Tabuleiro do jogo da memória">
+            <!-- Cartas serão geradas via JavaScript -->
+        </div>
+
+        <footer class="footer-jogo">
+            <button id="btn-config-jogo" class="botao botao-secundario" aria-label="Configurações">
+                <span aria-hidden="true">⚙</span>
+            </button>
+            <button id="btn-reiniciar" class="botao botao-secundario" aria-label="Reiniciar jogo">
+                <span aria-hidden="true">↻</span>
+            </button>
+        </footer>
+    </main>
+
+    <!-- Tela de Vitória -->
+    <main id="tela-vitoria" class="tela" role="region" aria-label="Parabéns" hidden>
+        <div class="container-central">
+            <div class="mensagem-vitoria">
+                <span class="icone-vitoria" aria-hidden="true">🌟</span>
+                <h2 class="titulo-vitoria">Parabéns!</h2>
+                <p class="texto-vitoria">Você encontrou todos os pares!</p>
+                <p id="info-vitoria-pares" class="info-vitoria"></p>
+                <p id="info-vitoria-tempo" class="info-vitoria"></p>
+            </div>
+
+            <div class="acoes-vitoria">
+                <button id="btn-jogar-novamente" class="botao botao-primario">
+                    <span>Jogar Novamente</span>
+                </button>
+                <button id="btn-menu-vitoria" class="botao botao-secundario">
+                    <span>Voltar ao Menu</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Pausa -->
+    <div id="modal-pausa" class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-pausa" hidden>
+        <div class="modal-conteudo">
+            <h2 id="titulo-pausa" class="titulo-modal">Jogo Pausado</h2>
+            <p class="texto-modal">Suas configurações e progresso foram salvos.</p>
+            <div class="acoes-modal">
+                <button id="btn-continuar" class="botao botao-primario">Continuar</button>
+                <button id="btn-reiniciar-pausa" class="botao botao-secundario">Reiniciar</button>
+                <button id="btn-sair-pausa" class="botao botao-secundario">Sair</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Feedback -->
+    <div id="toast" class="toast" role="alert" aria-live="polite" hidden>
+        <span id="toast-mensagem"></span>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/jogo.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
