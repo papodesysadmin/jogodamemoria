@@ -87,6 +87,36 @@ const Jogo = (function() {
 
         // Navegação por teclado nas cartas
         areaJogo?.addEventListener('keydown', lidarTecladoCartas);
+
+        // Mantém o tabuleiro equilibrado ao redimensionar a tela
+        window.addEventListener('resize', atualizarLayoutTabuleiro);
+    }
+
+    /**
+     * Obtém a quantidade ideal de colunas para o tabuleiro
+     * @param {number} dificuldade - Número de pares da partida
+     * @returns {number}
+     */
+    function obterColunasTabuleiro(dificuldade) {
+        const colunasBase = dificuldade >= 12 ? 6 : 4;
+
+        if (window.innerWidth <= 480) return 2;
+        if (window.innerWidth <= 760) return Math.min(3, colunasBase);
+        if (window.innerWidth <= 1024) return Math.min(4, colunasBase);
+
+        return colunasBase;
+    }
+
+    /**
+     * Aplica a configuração visual do tabuleiro conforme dificuldade e viewport
+     */
+    function atualizarLayoutTabuleiro() {
+        if (!areaJogo) return;
+
+        const colunas = obterColunasTabuleiro(estado.totalPares);
+        areaJogo.style.setProperty('--colunas-tabuleiro', String(colunas));
+        areaJogo.dataset.tamanho = estado.tamanho;
+        areaJogo.dataset.colunas = String(colunas);
     }
 
     /**
@@ -120,6 +150,8 @@ const Jogo = (function() {
 
         // Gera cartas
         estado.cartas = Cards.gerarCartas(dificuldade, tema);
+
+        atualizarLayoutTabuleiro();
 
         // Limpa e popula área de jogo
         areaJogo.innerHTML = '';

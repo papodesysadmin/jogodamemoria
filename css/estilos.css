@@ -566,16 +566,37 @@ body {
 }
 
 .area-jogo {
+    --colunas-tabuleiro: 4;
+    --largura-base-tabuleiro: var(--carta-tamanho-medio);
+    --gap-tabuleiro: clamp(var(--espacamento-pequeno), 2vw, var(--espacamento-grande));
     display: grid;
-    grid-template-columns: repeat(auto-fit, var(--carta-tamanho-medio));
+    grid-template-columns: repeat(var(--colunas-tabuleiro), minmax(0, 1fr));
     justify-content: center;
     align-content: start;
-    gap: var(--espacamento-grande);
+    gap: var(--gap-tabuleiro);
     padding: calc(100px + var(--espacamento-grande)) var(--espacamento-grande) calc(100px + var(--espacamento-grande));
     max-width: 1200px;
     margin: 0 auto;
-    width: 95%;
+    width: min(
+        100%,
+        calc(
+            var(--colunas-tabuleiro) * var(--largura-base-tabuleiro) +
+            (var(--colunas-tabuleiro) - 1) * var(--gap-tabuleiro)
+        )
+    );
     min-height: 100vh;
+}
+
+.area-jogo[data-tamanho="pequeno"] {
+    --largura-base-tabuleiro: var(--carta-tamanho-pequeno);
+}
+
+.area-jogo[data-tamanho="medio"] {
+    --largura-base-tabuleiro: var(--carta-tamanho-medio);
+}
+
+.area-jogo[data-tamanho="grande"] {
+    --largura-base-tabuleiro: var(--carta-tamanho-grande);
 }
 
 .footer-jogo {
@@ -593,8 +614,9 @@ body {
 
 .carta {
     position: relative;
-    width: var(--carta-tamanho-medio);
-    height: var(--carta-tamanho-medio);
+    width: 100%;
+    max-width: var(--largura-base-tabuleiro);
+    aspect-ratio: 4 / 5;
     perspective: 1000px;
     cursor: pointer;
     justify-self: center;
@@ -659,18 +681,15 @@ body {
 
 /* Tamanhos de carta */
 .carta.pequeno {
-    width: var(--carta-tamanho-pequeno);
-    height: var(--carta-tamanho-pequeno);
+    max-width: var(--carta-tamanho-pequeno);
 }
 
 .carta.medio {
-    width: var(--carta-tamanho-medio);
-    height: var(--carta-tamanho-medio);
+    max-width: var(--carta-tamanho-medio);
 }
 
 .carta.grande {
-    width: var(--carta-tamanho-grande);
-    height: var(--carta-tamanho-grande);
+    max-width: var(--carta-tamanho-grande);
 }
 
 /* Feedback visual suave ao acertar */
@@ -835,9 +854,8 @@ body {
     }
 
     .area-jogo {
-        grid-template-columns: repeat(auto-fill, var(--carta-tamanho-medio));
         padding: calc(80px + var(--espacamento-medio)) var(--espacamento-pequeno) calc(80px + var(--espacamento-medio));
-        gap: var(--espacamento-pequeno);
+        --gap-tabuleiro: var(--espacamento-pequeno);
     }
 
     .footer-jogo {
@@ -846,14 +864,12 @@ body {
 }
 
 @media (max-width: 400px) {
-    .carta.medio {
-        width: 65px;
-        height: 65px;
+    .area-jogo[data-tamanho="medio"] {
+        --largura-base-tabuleiro: 65px;
     }
 
-    .carta.grande {
-        width: 75px;
-        height: 75px;
+    .area-jogo[data-tamanho="grande"] {
+        --largura-base-tabuleiro: 75px;
     }
 
     .carta-frente {

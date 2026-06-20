@@ -158,8 +158,9 @@ const Accessibility = (function() {
         const cartaIndex = Array.from(cartas).indexOf(cartaAtual);
         if (cartaIndex === -1) return cartas[0];
 
-        const cartasPorLinha = window.innerWidth <= 400 ? 4 : 
-                               window.innerWidth <= 600 ? 5 : 6;
+        const tabuleiro = cartaAtual.closest('.area-jogo');
+        const gridTemplate = tabuleiro ? window.getComputedStyle(tabuleiro).gridTemplateColumns : '';
+        const cartasPorLinha = gridTemplate ? gridTemplate.split(' ').length : 4;
 
         let novoIndex = cartaIndex;
 
